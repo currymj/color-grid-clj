@@ -1,18 +1,14 @@
 # color-grid-clj
-
-A Quil sketch designed to ... well, that part is up to you.
+A simple toy that takes 3 word, SHA-256 hashes them to binary,
+and uses those values as the red, green, and blue channels of a
+colored grid.
 
 ## Usage
 
-LightTable - open `core.clj` and press `Ctrl+Shift+Enter` to evaluate the file.
+`$ lein run`
 
-Emacs - run cider, open `core.clj` and press `C-c C-k` to evaluate the file.
+Then, type a word. Hit enter; repeat twice more. You'll see a colored grid.
+Hit enter again to start over.
 
-REPL - run `(require 'color-grid-clj.core)`.
 
-## License
 
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.

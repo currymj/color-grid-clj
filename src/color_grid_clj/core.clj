@@ -6,8 +6,8 @@
 
 (def width 10)
 (defn setup []
-  ; Set frame rate to 20 frames per second. (slow, because no animations)
-  (q/frame-rate 20)
+  ; Set frame rate to 60 frames per second.
+  (q/frame-rate 10)
   ; initial state contains a blank string, an empty list of entered strings, and count 0
   {:s ""
    :names []
@@ -52,33 +52,46 @@
                                             j (range 16)]
                                       (apply q/fill (get-in colmap [i j]))
                                       (q/rect (* i width) (* j width) width width))))
-        :else (do (q/background 0))) ; clear
+        :else (do (q/background 0))))
 
 
 
-  (defn key-press [old-state event]
-    (let [k (event :key)
-          k-char  (str (event :raw-key))
-          k-code (event :raw-key)]
-      (cond
-        (or (= k-code processing.core.PConstants/ENTER) (= k-code processing.core.PConstants/RETURN))
-        (assoc old-state
-               :s ""
-               :names (conj (:names old-state)
-                            (:s old-state))
-               :frame (mod (inc (:frame old-state)) 4))
-        (= k-code processing.core.PConstants/BACKSPACE)
-        (let [olds (:s old-state)]
-          (assoc old-state :s (subs olds
+(defn key-press [old-state event]
+  (let [k (event :key)
+        k-char  (str (event :raw-key))
+        k-code (event :raw-key)]
+    (cond
+      (or (= k-code processing.core.PConstants/ENTER) (= k-code processing.core.PConstants/RETURN))
+      (assoc old-state
+             :s ""
+             :names (conj (:names old-state)
+                          (:s old-state))
+             :frame (mod (inc (:frame old-state)) 4))
+      (= k-code processing.core.PConstants/BACKSPACE)
+      (let [olds (:s old-state)]
+        (assoc old-state :s (subs olds
+                                  0
+                                  (if (= 0 (count olds))
                                     0
-                                    (if (= 0 (count olds))
-                                      0
-                                      (dec (count olds))))))
-        :else
-        (assoc-in old-state [:s] (str (:s old-state) k-char))))))
+                                    (dec (count olds))))))
+      :else
+      (assoc-in old-state [:s] (str (:s old-state) k-char)))))
 
 
-(q/defsketch color-grid-clj
+;; (q/defsketch color-grid-clj
+;;   :title "HASHGRID"
+;;   :size [(* 16 width) (* 16 width)]
+;;   ; setup function called only once, during sketch initialization.
+;;   :setup setup
+;;   ; update-state is called on each iteration before draw-state.
+;;   :update update-state
+;;   :draw draw-state
+;;   :features [:keep-on-top]
+;;   :key-typed key-press
+;;   :middleware [m/fun-mode])
+
+(defn -main [& args]
+  (q/sketch
   :title "HASHGRID"
   :size [(* 16 width) (* 16 width)]
   ; setup function called only once, during sketch initialization.
@@ -89,3 +102,4 @@
   :features [:keep-on-top]
   :key-typed key-press
   :middleware [m/fun-mode])
+)

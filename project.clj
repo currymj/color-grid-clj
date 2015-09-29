@@ -5,4 +5,5 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [quil "2.2.6"]
-                 [digest "1.4.4"]])
+                 [digest "1.4.4"]]
+  :main color-grid-clj.core)
